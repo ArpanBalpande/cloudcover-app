@@ -1,6 +1,6 @@
 name: Release
 on:
-  push:
+  pull_request:
     branches: [main]
 env:
   RELEASE_REVISION: "pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
@@ -70,14 +70,14 @@ jobs:
       uses: kodermax/kubectl-aws-eks@master
       with:
         args: rollout status deploy my-pod -n $KUBE_NAMESPACE
-    - name: Slack notification
-      uses: rtCamp/action-slack-notify@master
-      env:
-        SLACK_CHANNEL: my_cool_channel
-        SLACK_MESSAGE: 'Just deployed our cool application!'
-        SLACK_TITLE: 'Deploy'
-        SLACK_USERNAME: 'Some Bot'
-        SLACK_ICON: "[icon URL]"
-        SLACK_COLOR: '#228B22'
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        MSG_MINIMAL: true
+    # - name: Slack notification
+    #   uses: rtCamp/action-slack-notify@master
+    #   env:
+    #     SLACK_CHANNEL: my_cool_channel
+    #     SLACK_MESSAGE: 'Just deployed our cool application!'
+    #     SLACK_TITLE: 'Deploy'
+    #     SLACK_USERNAME: 'Some Bot'
+    #     SLACK_ICON: "[icon URL]"
+    #     SLACK_COLOR: '#228B22'
+    #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+    #     MSG_MINIMAL: true
