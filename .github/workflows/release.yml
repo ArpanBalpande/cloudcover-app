@@ -42,11 +42,15 @@ jobs:
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
     - name: Update kube config
       run: aws eks update-kubeconfig --name cloudcover-arpan --region eu-west-2
-
     - name: Deploy image to Amazon EKS
       run: |
         kubectl apply -f eks/deployment.yaml
         kubectl apply -f eks/service.yaml
+        kubectl apply -f datadog/cluster-agent-rbac.yaml
+        kubectl apply -f datadog/datadog-rbac.yaml
+        kubectl apply -f datadog/dca-secret.yaml
+        kubectl apply -f datadog/datadog-cluster-agent.yaml
+        kubectl apply -f datadog/datadog-agent.yaml
     # kubectl apply -f eks/aws-auth.yaml
     #     kubectl apply -f eks/issuer.yaml
     #     kubectl apply -f eks/ingress.yaml
